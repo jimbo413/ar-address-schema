@@ -1,5 +1,7 @@
 require 'rake'
+require 'faker'
 # require 'rspec/core/rake_task'
+require_relative 'app/models/contact'
 require_relative 'db/config'
 
 
@@ -28,3 +30,13 @@ task "db:version" do
   puts "Current version: #{ActiveRecord::Migrator.current_version}"
 end
 
+desc 'seed database'
+task "db:seed" do
+	100.times do
+		Contact.create(first_name: Faker::Name.first_name,
+		               last_name: Faker::Name.last_name,
+		               company_name: Faker::Company.catch_phrase,
+					         email: Faker::Internet.email, 
+					         phone: Faker::PhoneNumber)
+	end
+end
